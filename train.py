@@ -25,10 +25,10 @@ IMAGE_HEIGHT = 160
 IMAGE_WIDTH = 240
 PIN_MEMORY = True
 LOAD_MODEL = False
-TRAIN_IMG_DIR = "/media/duy/Personal/DATN/face-mask-generator/unet_dataset/train_images"
-TRAIN_MASK_DIR = "/media/duy/Personal/DATN/face-mask-generator/unet_dataset/train_masks"
-VAL_IMG_DIR = "/media/duy/Personal/DATN/face-mask-generator/unet_dataset/val_images"
-VAL_MASK_DIR = "/media/duy/Personal/DATN/face-mask-generator/unet_dataset/val_masks"
+TRAIN_IMG_DIR = "/root/data_unet_train_mask/train_images"
+TRAIN_MASK_DIR = "/root/data_unet_train_mask/train_masks"
+VAL_IMG_DIR = "/root/data_unet_train_mask/val_images"
+VAL_MASK_DIR = "/root/data_unet_train_mask/val_masks"
 
 
 def train_fn(loader, model, optimizer, loss_fn, scaler):
@@ -109,15 +109,15 @@ def main():
             "state_dict": model.state_dict(),
             "optimizer": optimizer.state_dict()
         }
-        save_checkpoint(checkpoint)
+        save_checkpoint(checkpoint, filename="ep{}_checkpoint_25062021.pth.tar")
 
         # Check accuracy
         check_accuracy(val_loader, model, device=DEVICE)
 
         # Print some examples to a folder
-        save_predictions_as_imgs(
-            val_loader, model, folder="./save_images/", device=DEVICE
-        )
+        # save_predictions_as_imgs(
+        #     val_loader, model, folder="./save_images/", device=DEVICE
+        # )
 
 
 if __name__ == "__main__":
